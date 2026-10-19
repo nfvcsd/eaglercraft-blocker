@@ -12,13 +12,14 @@ Load `extension/` unpacked in an administrator test profile. Start `python3 -m h
 | `positive.html` | One detection, page remains open |
 | `dynamic.html` | One detection after the delayed script/canvas appears |
 | `frame.html` | One detection from localhost frame inside 127.0.0.1 parent |
+| `cached-loader.html` | One detection from synthetic q13x-style loader structure |
 | `csp.html` | One detection even though CSP stops page code; known heuristic limitation |
 
 No fixture contains an actual game. Test approved genuine browser and downloaded HTML variants next, plus school LMS, coding lessons, WebGL lessons and search results. A zero count is not proof that a real game is absent. Capture only manual pass/fail and sanitized reason notes. If a school lesson triggers, keep detection mode and refine signatures before blocking.
 
 ## 2. Establish signed delivery
 
-Complete `RELEASE.md` only after repository/publication approval. Publish 0.1.0 and run its anonymous transport preflight on the student network. Remove the unpacked test extension before testing the signed ID. Do not try to drag/drop the CRX as proof of enterprise installation.
+Complete `RELEASE.md` only after repository/publication approval. Publish 0.1.1 and run its anonymous transport preflight on the student network. Remove the unpacked test extension before testing the signed ID. Do not try to drag/drop the CRX as proof of enterprise installation.
 
 Generate the Chrome preference plist:
 
@@ -40,11 +41,11 @@ These files are preference dictionaries for Jamf to wrap, not complete standalon
 
 Inspect existing Chrome profiles first. Merge the one extension entry into the authoritative existing `ExtensionSettings` dictionary if that policy is already managed. Do not create conflicting profile values or replace the district’s other extension entries. Review inherited `IncognitoModeUrlAllowlist`: current Chromium policy allows it to re-enable Incognito for matching URLs. Ensure no applicable exception exists for the pilot. The scaffold does not silently change a district allowlist.
 
-Restart Chrome. In `chrome://policy`, reload policies and confirm correct values, mandatory status, source/scope and no errors. Confirm both browser policies and the extension's **Mode=detect** policy. In `chrome://management`, confirm management; in `chrome://extensions`, confirm the **signing-key ID**, version 0.1.0, and policy installation. Confirm the normal disable/remove controls cannot remove it, Incognito is unavailable, and Guest mode is unavailable. Verify each profile that students can use; don't assume one profile proves all profiles.
+Restart Chrome. In `chrome://policy`, reload policies and confirm correct values, mandatory status, source/scope and no errors. Confirm both browser policies and the extension's **Mode=detect** policy. In `chrome://management`, confirm management; in `chrome://extensions`, confirm the **signing-key ID**, version 0.1.1, and policy installation. Confirm the normal disable/remove controls cannot remove it, Incognito is unavailable, and Guest mode is unavailable. Verify each profile that students can use; don't assume one profile proves all profiles.
 
 ## 4. Delivery acceptance gate
 
-Re-run fixtures in the signed extension. Publish 0.1.1 with the same key, then use the extension page’s Update control where available, or allow the normal update cycle. Verify the same ID becomes version 0.1.1. Restart Chrome and check persistence. Record actual observed results. If either fresh installation or upgrade fails, troubleshoot policies, XML, identity/version and networking; use the documented alternate CRX host if needed. A curl/Python download pass alone is insufficient.
+Re-run fixtures in the signed extension. Publish 0.1.2 with the same key, then use the extension page’s Update control where available, or allow the normal update cycle. Verify the same ID becomes version 0.1.2. Restart Chrome and check persistence. Record actual observed results. If either fresh installation or upgrade fails, troubleshoot policies, XML, identity/version and networking; use the documented alternate CRX host if needed. A curl/Python download pass alone is insufficient.
 
 For offline coverage, inspect “Allow access to file URLs” in extension details. Enable it on the test Mac if available and approved; confirm actual access rather than assuming force installation grants it. Open a local copy of `positive.html` and a local `mention.html` with network disconnected. Repeat with an approved offline game sample. If file access cannot be centrally enforced or the sample is missed, record offline coverage as unavailable and do not claim district-wide protection.
 

@@ -15,3 +15,10 @@ for (const [name,input,expected] of [
  ['unrelated script path',{canvas:true,inline:[config],sources:['https://example.org/not-eaglercraft.js']},null],
  ['string mention only',{canvas:true,inline:['const x="eaglercraftXOpts";']},null]
 ]) test(name,()=>assert.equal(classify(input),expected));
+
+const cachedCode = require('node:fs').readFileSync('fixtures/cached-loader.html','utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+const cachedSources = ['launcher','util','largeEPK'].map(name=>'https://example.org/lib/'+name+'.js');
+test('cached loader with canvas',()=>assert.equal(classify({canvas:true,inline:[cachedCode],sources:cachedSources}),'cached-loader-canvas'));
+test('cached loader without canvas',()=>assert.equal(classify({canvas:false,inline:[cachedCode],sources:cachedSources}),null));
+test('cached loader without companion scripts',()=>assert.equal(classify({canvas:true,inline:[cachedCode],sources:[]}),null));
+test('companion scripts with mere mention',()=>assert.equal(classify({canvas:true,inline:['const text="Eaglercraft"'],sources:cachedSources}),null));

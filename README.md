@@ -1,6 +1,6 @@
 # NFVCSD Eaglercraft pilot
 
-Local proof of concept, prepared October 19, 2026. Proposed repository: `nfvcsd/eaglercraft-blocker`. No repository, release, Pages site, or Jamf policy has been created or published.
+Local proof of concept **0.1.1**, prepared October 19, 2026. Proposed repository: `nfvcsd/eaglercraft-blocker`. No repository, release, Pages site, or Jamf policy has been created or published.
 
 **Start with [the one-Mac pilot](docs/PILOT.md).** Default mode is `detect`. Change to `block` only through the extension’s managed policy after reviewing the pilot results. This is a heuristic, not a complete or tamper-proof Eaglercraft prevention control.
 
