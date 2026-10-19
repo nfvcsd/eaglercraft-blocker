@@ -1,0 +1,1 @@
+setTimeout(()=>{document.body.append(document.createElement('canvas'));const s=document.createElement('script');s.textContent='window.eaglercraftXOpts = {container:"game", assetsURI:"assets.epk"}; function net_lax1dude_eaglercraft_v1_8_Main() {}';document.body.append(s);},2000);

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BrowserGuestModeEnabled</key>
+	<false/>
+	<key>ExtensionSettings</key>
+	<dict>
+		<key>REPLACE_WITH_SIGNING_KEY_EXTENSION_ID</key>
+		<dict>
+			<key>installation_mode</key>
+			<string>force_installed</string>
+			<key>override_update_url</key>
+			<true/>
+			<key>update_url</key>
+			<string>https://nfvcsd.github.io/eaglercraft-blocker/updates.xml</string>
+		</dict>
+	</dict>
+	<key>IncognitoModeAvailability</key>
+	<integer>1</integer>
+</dict>
+</plist>

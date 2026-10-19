@@ -1,0 +1,25 @@
+# Detection design and limits
+
+A match requires a canvas in the same document, an inline assignment to `eaglercraftOpts` or `eaglercraftXOpts` with expected configuration fields, and either a compiled `net_lax1dude_eaglercraft…` namespace marker or a recognizably named Eaglercraft JavaScript resource path. These are seed heuristics, not signatures validated against a representative real-game corpus. Synthetic fixtures establish behavior, not real-world coverage.
+
+The scanner reads only script elements and canvas presence. It never reads visible body text, inputs, cookies, local storage, chat, or student identity. All source inspection stays in the content script; only a fixed reason code reaches the worker. Script content can itself contain sensitive data, so broad page access is still a meaningful permission to review. The packaged extension has no network reporting code. Chrome’s update requests and hosting logs remain separate infrastructure traffic.
+
+Session storage holds aggregate detected/blocked/error counts and up to 500 opaque Chrome document IDs for deduplication. It is not synchronized or persisted across browser restarts; service-worker restarts retain the session counts. No URL, origin, title, timestamp, username, or device ID is retained. The popup displays only mode and totals. A new page load may count again. Reset by fully quitting Chrome (not merely closing one window). Students can see the counts; they cannot change the managed mode from the popup.
+
+## Coverage
+
+- **CSP:** isolated scripts inspect shared DOM without injecting page script tags or evaluating remote code. They cannot see page JavaScript globals. MAIN-world probing is deliberately absent: page CSP applies there and a page can tamper with hooks or forge bridge messages. Script elements blocked by CSP can still be detected; the CSP fixture intentionally demonstrates that evidence of code is not proof it executed.
+- **Frames:** each matching HTTP(S) frame scans itself, including cross-origin frames. Related `about:blank`, `data:` and `blob:` frames are requested via origin fallback; arbitrary top-level data URLs, opaque/sandboxed cases, protected Chrome pages, and restricted sites are not guaranteed. A child-frame match in block mode navigates the entire tab, potentially interrupting unrelated content in its parent.
+- **Dynamic loading:** debounced mutations, script-source attribute changes, and a 10-second scan catch many delayed loaders. External script bodies, module imports, fetch responses, workers, WebAssembly bytes, removed script tags, and closed shadow roots are not inspected. Cross-origin fetches are not attempted; CORS and broad fetch permissions are avoided.
+- **Offline HTML:** `file:///*` is declared but Chrome file-URL access must be enabled separately. An HTTP pilot success says nothing about downloaded HTML. Denied file access, renamed/encoded bundles, shadow DOM, and missing markers cause misses. Test offline mode explicitly; do not assume `file_url_navigation_allowed` substitutes for content-script file access.
+- **Performance:** one scheduled scan per second maximum; 256 scripts and 2 MiB of inline text per scan, with periodic scanning while open. Large/offline bundles may exceed the cap. Multiple busy frames still add work. Measure on actual student hardware.
+- **Blocking:** detection happens after DOM evidence appears; it is not a pre-execution network block. The worker checks the reporting document is still present, then navigates the tab to an internal page. A small check/navigation race remains. Fullscreen/pointer lock and embedded content need pilot checks. No DOM overlay is relied on as enforcement.
+- **Policy changes:** mode is read for each new detection. Already-reported documents do not re-report when policy changes; reload tabs after switching mode. Policy absence, read errors, or invalid values select detection-only mode.
+
+## Improving coverage safely
+
+Collect administrator-approved samples, including offline builds, renamed bundles, modern WASM variants, and education-site negatives. Record sanitized structural signatures, not student browsing logs. Add fixtures and evaluate false positives before enabling each new signal. Regexes can match inert strings or comments inside scripts; executable-looking code examples are a known limitation even though ordinary mentions are ignored. A malicious page can fabricate DOM evidence or hide it.
+
+For known confirmed game endpoints, consider separately reviewed declarativeNetRequest URL rules or FortiGate/DNS controls to stop requests earlier. DNR matches request metadata, not arbitrary response bodies or game semantics. Avoid blocking shared hosting/CDN domains wholesale. Pack all detector logic with the extension; do not fetch JavaScript rules or execute downloaded scripts. Signed updates are the mechanism for changing detection.
+
+Use complementary device controls for other browsers, guest/unmanaged profiles, local HTML execution, and developer tools as district policy warrants. Force-install prevents normal UI removal; it does not make heuristic detection comprehensive or resist local administrator control.

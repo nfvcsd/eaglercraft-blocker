@@ -1,0 +1,1 @@
+Promise.all([chrome.storage.managed.get('Mode').catch(()=>({})),chrome.storage.session.get('stats')]).then(([p,s])=>{document.getElementById('status').textContent=JSON.stringify({mode:p.Mode==='block'?'block':'detect',...(s.stats||{detected:0,blocked:0,errors:0})},null,2);});

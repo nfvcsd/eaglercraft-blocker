@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "Mode": {
+      "type": "string",
+      "enum": [
+        "detect",
+        "block"
+      ]
+    }
+  }
+}

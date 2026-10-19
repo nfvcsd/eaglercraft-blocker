@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "NFVCSD Eaglercraft Pilot",
+  "version": "0.1.0",
+  "minimum_chrome_version": "119",
+  "description": "Conservative local Eaglercraft detection pilot. Detection-only unless managed policy enables blocking.",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "storage": {
+    "managed_schema": "managed-schema.json"
+  },
+  "update_url": "https://nfvcsd.github.io/eaglercraft-blocker/updates.xml",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "file:///*"
+      ],
+      "js": [
+        "detector.js",
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "world": "ISOLATED"
+    }
+  ]
+}

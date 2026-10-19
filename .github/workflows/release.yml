@@ -1,0 +1,54 @@
+name: Signed pilot release
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pilot-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    environment: pilot-release
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - name: Build with existing signing key
+        env:
+          CRX_PRIVATE_KEY_B64: ${{ secrets.CRX_PRIVATE_KEY_B64 }}
+          EXPECTED_EXTENSION_ID: ${{ vars.EXTENSION_ID }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$EXPECTED_EXTENSION_ID"
+          umask 077
+          key_file="$RUNNER_TEMP/signing.pem"
+          trap 'rm -f "$key_file"' EXIT
+          printf '%s' "$CRX_PRIVATE_KEY_B64" | base64 --decode > "$key_file"
+          python3 scripts/build.py --chrome "$(command -v google-chrome)" --key "$key_file" --repository "$REPOSITORY" --expected-id "$EXPECTED_EXTENSION_ID"
+      - name: Publish versioned asset before advertising update
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(python3 -c 'import json; print(json.load(open("extension/manifest.json"))["version"])')"
+          gh release create "v$version" .dist/eaglercraft-blocker.crx .dist/SHA256SUMS .dist/extension-id.txt --target "$GITHUB_SHA" --title "Pilot $version" --notes "NFVCSD pilot. See repository pilot procedure and limitations."
+      - name: Verify anonymous download
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          version="$(python3 -c 'import json; print(json.load(open("extension/manifest.json"))["version"])')"
+          curl --fail --location --proto '=https' --proto-redir '=https' --retry 5 --retry-all-errors "https://github.com/$REPOSITORY/releases/download/v$version/eaglercraft-blocker.crx" -o /tmp/download.crx
+          cmp .dist/eaglercraft-blocker.crx /tmp/download.crx
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .dist/pages
+      - uses: actions/deploy-pages@v4
