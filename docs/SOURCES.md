@@ -19,3 +19,5 @@ These primary sources establish platform behavior; the pending pilot establishes
 - [Jamf custom settings](https://learn.jamf.com/r/en-US/technical-articles/Deploying_Custom_Computer_Configuration_Profiles_Using_the_Application_and_Custom_Settings_Payload): uploading app preference plists through computer configuration profiles.
 
 - [Supplied q13x game loader](https://eaglercraft.q13x.com/1.8.8_2/js/) and [launcher implementation](https://eaglercraft.q13x.com/lib/launcher.js): directly inspected for the 0.1.1 cached-loader rule.
+
+- [Eaglercraft play launcher](https://eaglercraft.com/play): inspected directly for 0.1.2; separate launch action and WebAssembly client preparation observed.

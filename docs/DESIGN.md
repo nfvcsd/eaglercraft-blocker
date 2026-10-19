@@ -1,10 +1,16 @@
 # Detection design and limits
 
-A match requires a canvas in the same document, an inline assignment to `eaglercraftOpts` or `eaglercraftXOpts` with expected configuration fields, and either a compiled `net_lax1dude_eaglercraft…` namespace marker or a recognizably named Eaglercraft JavaScript resource path. Version 0.1.1 also recognizes the q13x cached loader by the combination of three companion script paths, two asset-metadata load calls, game configuration fields, its launch-call structure, and a canvas. These remain seed heuristics, not signatures validated against a representative real-game corpus. Synthetic fixtures establish behavior, not real-world coverage.
+Heuristic matches require a canvas in the same document, an inline assignment to `eaglercraftOpts` or `eaglercraftXOpts` with expected configuration fields, and either a compiled `net_lax1dude_eaglercraft…` namespace marker or a recognizably named Eaglercraft JavaScript resource path. Version 0.1.1 also recognizes the q13x cached loader by the combination of three companion script paths, two asset-metadata load calls, game configuration fields, its launch-call structure, and a canvas. These remain seed heuristics, not signatures validated against a representative real-game corpus. Synthetic fixtures establish behavior, not real-world coverage.
 
 The scanner reads only script elements and canvas presence. It never reads visible body text, inputs, cookies, local storage, chat, or student identity. All source inspection stays in the content script; only a fixed reason code reaches the worker. Script content can itself contain sensitive data, so broad page access is still a meaningful permission to review. The packaged extension has no network reporting code. Chrome’s update requests and hosting logs remain separate infrastructure traffic.
 
 Session storage holds aggregate detected/blocked/error counts and up to 500 opaque Chrome document IDs for deduplication. It is not synchronized or persisted across browser restarts; service-worker restarts retain the session counts. No URL, origin, title, timestamp, username, or device ID is retained. The popup displays only mode and totals. A new page load may count again. Reset by fully quitting Chrome (not merely closing one window). Students can see the counts; they cannot change the managed mode from the popup.
+
+## Known launcher rule (0.1.2)
+
+The verified `https://eaglercraft.com/play` launcher is recognized directly by its exact origin and pathname; `/en/play` and trailing-slash forms are included. This rule runs without requiring a canvas and covers the launcher before JavaScript or WebAssembly client preparation finishes. Query strings are ignored. Other paths on the domain, links to the game, article text, and lookalike hostnames do not match this rule. Other heuristic rules still apply independently.
+
+The content script reads its own document URL locally for this check. The URL is never sent to the worker, recorded, or transmitted. A hit sends only `known-game-launcher`; the same detection-only default and managed blocking action apply. This is explicit known-site coverage, not generic recognition of WebAssembly game code or new mirror domains. Blocking occurs after content-script detection, not at the network layer. Client-side route changes are checked by the existing mutation/periodic scan while the document has not already reported.
 
 ## Coverage
 

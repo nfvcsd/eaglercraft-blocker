@@ -14,7 +14,7 @@
         inline.push(text); remaining -= text.length;
       }
     }
-    const reason = NFVDetector.classify({canvas: !!document.querySelector('canvas'), inline, sources});
+    const reason = NFVDetector.classify({documentUrl: location.href, canvas: !!document.querySelector('canvas'), inline, sources});
     if (!reason) return;
     reported = true;
     observer.disconnect();

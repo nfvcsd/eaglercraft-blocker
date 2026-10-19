@@ -1,13 +1,13 @@
 # NFVCSD Eaglercraft pilot
 
-Local proof of concept **0.1.1**, prepared October 19, 2026. Proposed repository: `nfvcsd/eaglercraft-blocker`. No repository, release, Pages site, or Jamf policy has been created or published.
+Local proof of concept **0.1.2**, prepared October 19, 2026. Proposed repository: `nfvcsd/eaglercraft-blocker`. No repository, release, Pages site, or Jamf policy has been created or published.
 
 **Start with [the one-Mac pilot](docs/PILOT.md).** Default mode is `detect`. Change to `block` only through the extension’s managed policy after reviewing the pilot results. This is a heuristic, not a complete or tamper-proof Eaglercraft prevention control.
 
 ## Included
 
 - Manifest V3 extension with isolated content scripts in matching frames, mutation detection, local session counters, and an optional whole-tab blocking action.
-- Conservative script/configuration + canvas detector; ordinary page text, titles, links, and search-query mentions are not evidence.
+- Exact URL rule for the verified `https://eaglercraft.com/play` launcher (also `/en/play` and trailing slashes), plus a conservative script/configuration + canvas detector; ordinary page text, titles, links, and search-query mentions are not evidence.
 - Signed CRX3 build via Chrome, stable signing-key identity checks, manual GitHub Actions release workflow, and generated GitHub Pages `updates.xml`.
 - Jamf custom-settings plist template for `com.google.Chrome`, plus separate extension-mode policies.
 - Synthetic fixtures, detector/worker tests, optional actual-browser smoke test, anonymous hosting preflight, fallback hosting procedure.

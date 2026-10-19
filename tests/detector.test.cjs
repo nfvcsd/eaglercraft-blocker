@@ -22,3 +22,10 @@ test('cached loader with canvas',()=>assert.equal(classify({canvas:true,inline:[
 test('cached loader without canvas',()=>assert.equal(classify({canvas:false,inline:[cachedCode],sources:cachedSources}),null));
 test('cached loader without companion scripts',()=>assert.equal(classify({canvas:true,inline:[cachedCode],sources:[]}),null));
 test('companion scripts with mere mention',()=>assert.equal(classify({canvas:true,inline:['const text="Eaglercraft"'],sources:cachedSources}),null));
+
+for (const url of ['https://eaglercraft.com/play','https://eaglercraft.com/play/','https://eaglercraft.com/en/play','https://eaglercraft.com/play?version=1.8.8']) {
+ test('dedicated launcher '+url,()=>assert.equal(classify({canvas:false,documentUrl:url}),'known-game-launcher'));
+}
+for (const url of ['https://eaglercraft.com/','https://eaglercraft.com/news','https://eaglercraft.com/guide','https://example.org/?url=https://eaglercraft.com/play','https://eaglercraft.com.example.org/play','https://example.org/eaglercraft.com/play','https://eaglercraft.com/playground','https://eaglercraft.com/play/article','https://example.org@eaglercraft.com.example.org/play','not-a-url']) {
+ test('launcher rule excludes '+url,()=>assert.equal(classify({canvas:true,documentUrl:url}),null));
+}

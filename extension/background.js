@@ -5,7 +5,7 @@ async function mode() {
   catch { return 'detect'; }
 }
 chrome.runtime.onMessage.addListener((message, sender, respond) => {
-  if (message?.type !== 'detection' || !['config-runtime-canvas', 'cached-loader-canvas'].includes(message.reason)
+  if (message?.type !== 'detection' || !['config-runtime-canvas', 'cached-loader-canvas', 'known-game-launcher'].includes(message.reason)
       || sender.id !== chrome.runtime.id || !sender.tab || !sender.documentId) return;
   queue = queue.catch(() => {}).then(async () => {
     const currentMode = await mode();

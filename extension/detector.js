@@ -1,6 +1,14 @@
-/* No page text, titles, query parameters, or network requests are classified. */
+/* No page text, titles, query parameters, or network requests are classified.
+ * Known launcher rules inspect only the current document origin and pathname. */
 (() => {
-  function classify({canvas, inline = [], sources = []}) {
+  function classify({canvas, inline = [], sources = [], documentUrl = ''}) {
+    // Verified dedicated launcher, not a keyword or whole-domain block.
+    // Evaluate before canvas evidence: the launcher builds the client on demand.
+    try {
+      const url = new URL(documentUrl);
+      if (url.origin === 'https://eaglercraft.com'
+          && /^\/(?:en\/)?play\/?$/.test(url.pathname)) return 'known-game-launcher';
+    } catch { /* Non-URL and unsupported documents fall through to heuristics. */ }
     if (!canvas) return null;
     const code = inline.join('\n');
     const config = /\b(?:window\s*\.\s*)?eaglercraftX?Opts\s*=\s*\{/.test(code)
