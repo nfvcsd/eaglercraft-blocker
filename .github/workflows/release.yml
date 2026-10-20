@@ -39,7 +39,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="$(python3 -c 'import json; print(json.load(open("extension/manifest.json"))["version"])')"
-          gh release create "v$version" .dist/eaglercraft-blocker.crx .dist/SHA256SUMS .dist/extension-id.txt --target "$GITHUB_SHA" --title "Pilot $version" --notes "NFVCSD pilot. See repository pilot procedure and limitations."
+          gh release create "v$version" .dist/eaglercraft-blocker.crx .dist/SHA256SUMS .dist/extension-id.txt --target "$GITHUB_SHA" --title "Pilot $version" --notes "School Eaglercraft pilot. See repository pilot procedure and limitations."
       - name: Verify anonymous download
         env:
           REPOSITORY: ${{ github.repository }}

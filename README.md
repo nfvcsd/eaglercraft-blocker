@@ -1,6 +1,6 @@
 # NFVCSD Eaglercraft pilot
 
-Local proof of concept **0.1.2**, prepared October 19, 2026. Proposed repository: `nfvcsd/eaglercraft-blocker`. No repository, release, Pages site, or Jamf policy has been created or published.
+Manifest V3 proof of concept for managed school Macs. Repository: `nfvcsd/eaglercraft-blocker`.
 
 **Start with [the one-Mac pilot](docs/PILOT.md).** Default mode is `detect`. Change to `block` only through the extension’s managed policy after reviewing the pilot results. This is a heuristic, not a complete or tamper-proof Eaglercraft prevention control.
 
@@ -11,6 +11,10 @@ Local proof of concept **0.1.2**, prepared October 19, 2026. Proposed repository
 - Signed CRX3 build via Chrome, stable signing-key identity checks, manual GitHub Actions release workflow, and generated GitHub Pages `updates.xml`.
 - Jamf custom-settings plist template for `com.google.Chrome`, plus separate extension-mode policies.
 - Synthetic fixtures, detector/worker tests, optional actual-browser smoke test, anonymous hosting preflight, fallback hosting procedure.
+
+## Customize for your school
+
+Edit **[`extension/_locales/en/messages.json`](extension/_locales/en/messages.json)** to change the extension name, block heading, and block message. See [branding and fork setup](docs/CUSTOMIZATION.md) for examples and release instructions.
 
 ## Local quick start
 

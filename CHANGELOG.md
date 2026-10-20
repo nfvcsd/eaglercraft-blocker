@@ -1,3 +1,8 @@
+# 0.1.4
+
+- Centralize the Chrome extension name, popup heading, and blocked-page text in one editable messages file.
+- Document school branding and independent fork signing/hosting setup.
+
 # 0.1.2
 
 Recognize the verified eaglercraft.com/play launcher by exact origin/path, including /en/play and trailing-slash forms, without waiting for a game canvas. Preserve detection-only default and existing q13x/structural rules. No URL is stored or sent. This adds known-site coverage, not a general WebAssembly detector.
