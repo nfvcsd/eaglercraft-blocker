@@ -1,14 +1,14 @@
 {
   "extensionName": {
-    "message": "NFVCSD Eaglercraft Pilot",
+    "message": "NFVCSD Eaglercraft Block",
     "description": "Displayed in Chrome, the popup, and the blocked-page tab title."
   },
   "blockHeading": {
-    "message": "Game blocked by the NFVCSD pilot",
+    "message": "Game blocked by the NFVCSD",
     "description": "Heading shown when a game is blocked."
   },
   "blockMessage": {
-    "message": "This page matched the pilot’s Eaglercraft signals. If this was schoolwork, contact your technology team.",
+    "message": "This page matched the Eaglercraft signals. If this was schoolwork, contact your technology team.",
     "description": "Plain-text explanation and school support instructions. No HTML."
   }
 }
